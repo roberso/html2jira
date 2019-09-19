@@ -1,11 +1,5 @@
 # html2jira
 
-[![build status][1]][2] [![dependency status][3]][4] [![coverage report][9]][10] [![stability index][15]][16]
-
-[![npm stats][13]][14]
-
-[![browser support][5]][6]
-
   A simple HTML to Jira markdown
 
 ## Example
