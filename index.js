@@ -1,6 +1,5 @@
 class HTML2Jira {
-    constructor() {
-    }
+    constructor() {}
 
     toJira(html) {
         this.html = html;
@@ -36,6 +35,7 @@ class HTML2Jira {
     _parseTag(element, depth, carryOver) {
         let tag = ''
         let wrapped = false
+        let newDepth = depth
         // let newCarryOver = ''
         switch (element.name) {
             case 'h1':
@@ -59,29 +59,52 @@ class HTML2Jira {
                 wrapped = true
                 break
             case 'ol':
-                tag = ''
-                carryOver = this.pad(depth, '#') + '#  '
+                // tag = this.needNewLine(element)
+                carryOver = this.pad(depth, '#') + ' '
                 break
             case 'ul':
-                carryOver = this.pad(depth, '*') + '*  '
+                // tag = this.needNewLine(element)
+                carryOver = this.pad(depth, '*') + ' '
+                break
+            case 'li':
+                newDepth = depth - 1
                 break
         }
         this.results += tag
         let preCRs = this.results.split('\n').length
         element.children.forEach(child => {
-            this._parse(child, depth + 1, carryOver)
+            this._parse(child, newDepth + 1, carryOver)
         })
         let postCRs = this.results.split('\n').length
         if (wrapped) {
             this.results += tag
-        } else if(preCRs == postCRs) {
+        } else if (preCRs == postCRs) {
             this.results += '\n'
         }
     }
 
+    needNewLine(element) {
+        let rc = ''
+        let parent = element.parent
+        if (parent) {
+            let firstList = null
+            parent.children.forEach(child => {
+                if((firstList == null) && (child.type == 'tag')) {
+                    if((child.name == 'ol') || (child.name == 'ul')) {
+                        firstList = child
+                    }
+                }
+            })
+            if(firstList == element) {
+                rc = '\n'
+            }
+        }
+        return rc
+    }
+
     pad(depth, spaces) {
         let rc = ''
-        for (let i = 0; i < depth; i++) {
+        for (let i = 0; i < depth + 1; i++) {
             rc += spaces
         }
         return rc
