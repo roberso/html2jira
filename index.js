@@ -59,11 +59,11 @@ class HTML2Jira {
                 wrapped = true
                 break
             case 'ol':
-                // tag = this.needNewLine(element)
+                tag = this.needNewLine(element)
                 carryOver = this.pad(depth, '#') + ' '
                 break
             case 'ul':
-                // tag = this.needNewLine(element)
+                tag = this.needNewLine(element)
                 carryOver = this.pad(depth, '*') + ' '
                 break
             case 'li':
@@ -86,7 +86,7 @@ class HTML2Jira {
     needNewLine(element) {
         let rc = ''
         let parent = element.parent
-        if (parent) {
+        if (parent && (parent.type =='tag') && (parent.name == 'li')) {
             let firstList = null
             parent.children.forEach(child => {
                 if((firstList == null) && (child.type == 'tag')) {

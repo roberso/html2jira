@@ -2,6 +2,13 @@ var test = require("tape")
 
 var {HTML2Jira} = require("../index.js")
 
+test("ckeditor nested lists converted", function (assert) {
+    let h2j = new HTML2Jira();
+    let result = h2j.toJira('<ul><li>b1</li><li>b2<ol><li>b3</li><li>b4</li></ol></li><li>b5</li></ul>')
+    assert.equal(result, "* b1\n* b2\n## b3\n## b4\n* b5\n")
+    assert.end()
+})
+
 test("Bullet+number list converted", function (assert) {
     let h2j = new HTML2Jira();
     let result = h2j.toJira('<ol><li>t1</li><li>t2</li><ul><li>t2.1</li></ul></ol>')
