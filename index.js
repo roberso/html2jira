@@ -81,21 +81,26 @@ class HTML2Jira {
         } else if (preCRs == postCRs) {
             this.results += '\n'
         }
+        if (depth == 0) {
+            if ((element.name == 'ol') || (element.name == 'ul')) {
+                this.results += '\n'
+            }
+        }
     }
 
     needNewLine(element) {
         let rc = ''
         let parent = element.parent
-        if (parent && (parent.type =='tag') && (parent.name == 'li')) {
+        if (parent && (parent.type == 'tag') && (parent.name == 'li')) {
             let firstList = null
             parent.children.forEach(child => {
-                if((firstList == null) && (child.type == 'tag')) {
-                    if((child.name == 'ol') || (child.name == 'ul')) {
+                if ((firstList == null) && (child.type == 'tag')) {
+                    if ((child.name == 'ol') || (child.name == 'ul')) {
                         firstList = child
                     }
                 }
             })
-            if(firstList == element) {
+            if (firstList == element) {
                 rc = '\n'
             }
         }
