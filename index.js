@@ -102,11 +102,11 @@ class HTML2Jira {
                 skipChildren = true
                 skipLineBreak = true
                 break
-            // case 'table':
-            //     tag = this._processTable(element)
-            //     skipChildren = true
-            //     skipLineBreak = true
-            //     break
+            case 'table':
+                tag = this._processTable(element)
+                skipChildren = true
+                skipLineBreak = true
+                break
         }
         this.results += tag
         let preCRs = this.results.split('\n').length
@@ -131,7 +131,7 @@ class HTML2Jira {
     }
 
     _processTable(element) {
-
+        
     }
 
     _processImage(element) {

@@ -2,6 +2,13 @@ var test = require("tape")
 
 var {HTML2Jira} = require("../index.js")
 
+test("Simple Table", function (assert) {
+    let h2j = new HTML2Jira();
+    let result = h2j.toJira('<table><tr><th>Heading 1</th><th>Heading 2</th><th>Heading 3</th></tr><tr><td>col A1</td><td>col A2</td><td>col A3</td></tr><tr><td>col B1</td><td>col B2</td><td>col B3</td></tr><table>')
+    assert.equal(result, "||Heading 1||Heading 2||Heading 2||\n|col A1|col A2|col A3|\n|col B1|col B2|col B3|\n")
+    assert.end()
+})
+
 test("simple image in a paragraph", function (assert) {
     let h2j = new HTML2Jira();
     let result = h2j.toJira('<p>Groo <img src="https://upload.wikimedia.org/wikipedia/en/thumb/d/d5/Groo_cover_issue1.jpg/200px-Groo_cover_issue1.jpg" alt="Groo by Sergio Aragon" width="128" height="128"> the Wanderer!')
