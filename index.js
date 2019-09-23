@@ -28,7 +28,7 @@ class HTML2Jira {
 
     _parseText(element, depth, carryOver) {
         // console.log(element)
-        this.results += carryOver + element.data.trim()
+        this.results += carryOver + element.data
         // console.log(element)
     }
 
@@ -36,8 +36,11 @@ class HTML2Jira {
         let tag = ''
         let wrapped = false
         let newDepth = depth
+        let tagId = element.name.toLowerCase()
+        let skipChildren = false
+        let skipLineBreak = false
         // let newCarryOver = ''
-        switch (element.name) {
+        switch (tagId) {
             case 'h1':
                 tag = 'h1. '
                 break
@@ -47,6 +50,15 @@ class HTML2Jira {
             case 'h3':
                 tag = 'h3. '
                 break
+            case 'h4':
+                tag = 'h4. '
+                break
+            case 'h5':
+                tag = 'h5. '
+                break
+            case 'h6':
+                tag = 'h6. '
+                break
             case 'p':
                 tag = ''
                 break
@@ -54,48 +66,115 @@ class HTML2Jira {
                 tag = '_'
                 wrapped = true
                 break
+            case 'u':
+                tag = '+'
+                wrapped = true
+                break
+            case 'img':
+                tag = this._processImage(element)
+                skipLineBreak = true
+                skipChildren = true
+                break
             case 'b':
+            case 'strong':
                 tag = '*'
                 wrapped = true
                 break
             case 'ol':
-                tag = this.needNewLine(element)
-                carryOver = this.pad(depth, '#') + ' '
+                tag = this._needNewLine(element)
+                carryOver = this._pad(depth, '#') + ' '
                 break
             case 'ul':
-                tag = this.needNewLine(element)
-                carryOver = this.pad(depth, '*') + ' '
+                tag = this._needNewLine(element)
+                carryOver = this._pad(depth, '*') + ' '
                 break
             case 'li':
                 newDepth = depth - 1
                 break
+            case 'br':
+                tag = '\n'
+                break
+            case 'hr':
+                tag = '----\n'
+                break
+            case 'a':
+                tag = this._processAnchor(element)
+                skipChildren = true
+                skipLineBreak = true
+                break
         }
         this.results += tag
         let preCRs = this.results.split('\n').length
-        element.children.forEach(child => {
-            this._parse(child, newDepth + 1, carryOver)
-        })
+        if (!skipChildren) {
+            element.children.forEach(child => {
+                this._parse(child, newDepth + 1, carryOver)
+            })
+        }
         let postCRs = this.results.split('\n').length
         if (wrapped) {
             this.results += tag
         } else if (preCRs == postCRs) {
-            this.results += '\n'
+            if (!skipLineBreak) {
+                this.results += '\n'
+            }
         }
         if (depth == 0) {
-            if ((element.name == 'ol') || (element.name == 'ul')) {
+            if ((tagId == 'ol') || (tagId == 'ul')) {
                 this.results += '\n'
             }
         }
     }
 
-    needNewLine(element) {
+    _processImage(element) {
+        let src = element.attribs.src
+        let attribs = '' 
+        for(let k in element.attribs) {
+            let d = element.attribs[k]
+            switch(k.toLowerCase()) {
+                case "src":
+                    src = d
+                    break
+                default:
+                    let space = attribs.length>0?', ':''
+                    if(k=='alt') {
+                        d = `"${d}"`
+                    }
+                    attribs += `${space}${k}=${d}`
+                    break
+            }
+        }
+        let vbar = attribs.length==0?'':'|'
+        return `!${src}${vbar}${attribs}!`
+    }
+
+    _processAnchor(element) {
+        let href = element.attribs.href
+        let label = ''
+        element.children.forEach(child => {
+            label += this._extractText(child)
+        })
+        if (label.trim().length == 0) {
+            label = href
+        }
+        return `[${label}|${href}]`
+    }
+
+    _extractText(element) {
+        let rc = ''
+        if (element.type == 'text') {
+            rc = element.data
+        }
+        return rc
+    }
+
+    _needNewLine(element) {
         let rc = ''
         let parent = element.parent
-        if (parent && (parent.type == 'tag') && (parent.name == 'li')) {
+        if (parent && (parent.type == 'tag') && (parent.name.toLowerCase() == 'li')) {
             let firstList = null
             parent.children.forEach(child => {
                 if ((firstList == null) && (child.type == 'tag')) {
-                    if ((child.name == 'ol') || (child.name == 'ul')) {
+                    if ((child.name.toLowerCase() == 'ol') || (child.name.toLowerCase() == 'ul')) {
                         firstList = child
                     }
                 }
@@ -107,7 +186,7 @@ class HTML2Jira {
         return rc
     }
 
-    pad(depth, spaces) {
+    _pad(depth, spaces) {
         let rc = ''
         for (let i = 0; i < depth + 1; i++) {
             rc += spaces

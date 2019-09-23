@@ -2,6 +2,20 @@ var test = require("tape")
 
 var {HTML2Jira} = require("../index.js")
 
+test("simple image in a paragraph", function (assert) {
+    let h2j = new HTML2Jira();
+    let result = h2j.toJira('<p>Groo <img src="https://upload.wikimedia.org/wikipedia/en/thumb/d/d5/Groo_cover_issue1.jpg/200px-Groo_cover_issue1.jpg" alt="Groo by Sergio Aragon" width="128" height="128"> the Wanderer!')
+    assert.equal(result, 'Groo !https://upload.wikimedia.org/wikipedia/en/thumb/d/d5/Groo_cover_issue1.jpg/200px-Groo_cover_issue1.jpg|alt="Groo by Sergio Aragon", width=128, height=128! the Wanderer!\n')
+    assert.end()
+})
+
+test("simple anchor link in a paragraph", function (assert) {
+    let h2j = new HTML2Jira();
+    let result = h2j.toJira('<p>nice place to learn the basics of something is <a href="https://www.w3schools.com">W3Schools.com</a>.')
+    assert.equal(result, "nice place to learn the basics of something is [W3Schools.com|https://www.w3schools.com].\n")
+    assert.end()
+})
+
 test("proper break after end of a level 1 list", function (assert) {
     let h2j = new HTML2Jira();
     let result = h2j.toJira('<ul><li>name and email address</li></ul><p>Some Code:</p>')
