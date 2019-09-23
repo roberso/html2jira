@@ -1,6 +1,18 @@
 # html2jira
 
-  A simple HTML to Jira markdown
+  A simple HTML to Jira markdown class.  This was created as part of an effort to put a web front end on a process that 
+  will create Jira Epics on the back end.  As part of that, the web front end uses CKEditor to allow for the user to put
+  in rich text information.  After failing to find anything usable on the npm registry, I decided to write my own.
+  Currently it only support the following tags:
+  - Paragraph <p>
+  - Image <img>
+  - Bold <b> <strong>
+  - Italics <i>
+  - Underline <u>
+  - Lists (order and unordered) <ul> <ol> (nested)
+  - Line Breaks <br>
+  - Horizonal Line <hr>
+  - Headings <h1>, <h2>, ...
 
 ## Example
 
