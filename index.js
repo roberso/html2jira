@@ -102,6 +102,11 @@ class HTML2Jira {
                 skipChildren = true
                 skipLineBreak = true
                 break
+            // case 'table':
+            //     tag = this._processTable(element)
+            //     skipChildren = true
+            //     skipLineBreak = true
+            //     break
         }
         this.results += tag
         let preCRs = this.results.split('\n').length
@@ -125,25 +130,29 @@ class HTML2Jira {
         }
     }
 
+    _processTable(element) {
+
+    }
+
     _processImage(element) {
         let src = element.attribs.src
-        let attribs = '' 
-        for(let k in element.attribs) {
+        let attribs = ''
+        for (let k in element.attribs) {
             let d = element.attribs[k]
-            switch(k.toLowerCase()) {
+            switch (k.toLowerCase()) {
                 case "src":
                     src = d
                     break
                 default:
-                    let space = attribs.length>0?', ':''
-                    if(k=='alt') {
+                    let space = attribs.length > 0 ? ', ' : ''
+                    if (k == 'alt') {
                         d = `"${d}"`
                     }
                     attribs += `${space}${k}=${d}`
                     break
             }
         }
-        let vbar = attribs.length==0?'':'|'
+        let vbar = attribs.length == 0 ? '' : '|'
         return `!${src}${vbar}${attribs}!`
     }
 

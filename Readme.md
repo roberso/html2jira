@@ -13,6 +13,7 @@
   - Line Breaks <br>
   - Horizonal Line <hr>
   - Headings <h1>, <h2>, ...
+  - Links to external sites <a href="...">some text</a>
 
 ## Example
 
