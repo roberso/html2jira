@@ -14,7 +14,7 @@
   - Horizonal Line <hr>
   - Headings <h1>, <h2>, ...
   - Links to external sites <a href="...">some text</a>
-  - Simple non-nested Tables <table><tr><th></th></tr><tr><td></td></tr><table>
+  - (not yet) Simple non-nested Tables <table><tr><th></th></tr><tr><td></td></tr><table>
 
 ## Example
 
