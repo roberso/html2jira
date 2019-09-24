@@ -15,10 +15,10 @@
   - Headings `<h1>, <h2>, ...`
   - Links to external sites `<a href="...">some text</a>`
   - (not yet) Simple non-nested Tables `<table><tr><th></th></tr><tr><td></td></tr><table>`
-  
+
 ## Installation
 
-`npm install html2jira`
+`npm install --save html2jira`
 
 ## Example
 
@@ -30,6 +30,7 @@ let res = this.toJira(html)
 
 ```
 
+=======
 ## publish updated to NPM
 - npm run prepublish
 - npm login
@@ -38,4 +39,4 @@ let res = this.toJira(html)
 
 ## Contributors
 
- - Kenn Roberson
+- Kenn Roberson
