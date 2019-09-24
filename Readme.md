@@ -30,7 +30,6 @@ let res = this.toJira(html)
 
 ```
 
-=======
 ## publish updated to NPM
 - npm run prepublish
 - npm login
