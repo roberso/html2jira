@@ -16,6 +16,11 @@
   - Links to external sites <a href="...">some text</a>
   - (not yet) Simple non-nested Tables <table><tr><th></th></tr><tr><td></td></tr><table>
 
+
+## Installation
+
+`npm install --save html2jira`
+
 ## Example
 
 ```js
@@ -26,10 +31,11 @@ let res = this.toJira(html)
 
 ```
 
-## Installation
-
-`npm install html2jira`
-
 ## Contributors
 
- - Kenn Roberson
+- Kenn Roberson
+
+## publish updated to NPM
+npm login
+npm version patch
+npm publish
