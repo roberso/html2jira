@@ -4,18 +4,17 @@
   will create Jira Epics on the back end.  As part of that, the web front end uses CKEditor to allow for the user to put
   in rich text information.  After failing to find anything usable on the npm registry, I decided to write my own.
   Currently it only support the following tags:
-  - Paragraph <p>
-  - Image <img>
-  - Bold <b> <strong>
-  - Italics <i>
-  - Underline <u>
-  - Lists (order and unordered) <ul> <ol> (nested)
-  - Line Breaks <br>
-  - Horizonal Line <hr>
-  - Headings <h1>, <h2>, ...
-  - Links to external sites <a href="...">some text</a>
-  - (not yet) Simple non-nested Tables <table><tr><th></th></tr><tr><td></td></tr><table>
-
+  - Paragraph `<p>`
+  - Image `<img>`
+  - Bold `<b> <strong>`
+  - Italics `<i>`
+  - Underline `<u>`
+  - Lists (order and unordered) `<ul> <ol>` (nested)
+  - Line Breaks `<br>`
+  - Horizonal Line `<hr>`
+  - Headings `<h1>, <h2>, ...`
+  - Links to external sites `<a href="...">some text</a>`
+  - (not yet) Simple non-nested Tables `<table><tr><th></th></tr><tr><td></td></tr><table>`
 
 ## Installation
 
@@ -31,11 +30,13 @@ let res = this.toJira(html)
 
 ```
 
+=======
+## publish updated to NPM
+- npm run prepublish
+- npm login
+- npm version patch
+- npm publish
+
 ## Contributors
 
 - Kenn Roberson
-
-## publish updated to NPM
-npm login
-npm version patch
-npm publish
