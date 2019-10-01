@@ -5,8 +5,13 @@ import {
   HTML2Jira
 } from '../src';
 
-describe('Awesome test.', () => {
+describe('HTML2Jira testing', () => {
   const h2j = new HTML2Jira();
+  it('multiple h1s right next to each other', () => {
+    const result = h2j.toJira('<h1>title</h1><h1>title</h1>');
+    const expectedVal = 'h1. title\nh1. title\n';
+    assert(result === expectedVal, 'multiple h1s failed');
+  });
   it('simple image in a paragraph', () => {
     const result = h2j.toJira('<p>Groo <img src="https://upload.wikimedia.org/wikipedia/en/thumb/d/d5/Groo_cover_issue1.jpg/200px-Groo_cover_issue1.jpg" alt="Groo by Sergio Aragon" width="128" height="128"> the Wanderer!');
     const expectedVal = 'Groo !https://upload.wikimedia.org/wikipedia/en/thumb/d/d5/Groo_cover_issue1.jpg/200px-Groo_cover_issue1.jpg|alt="Groo by Sergio Aragon", width=128, height=128! the Wanderer!\n';
