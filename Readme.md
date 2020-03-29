@@ -26,8 +26,7 @@
 let { HTML2Jira } = require("HTML2Jira")
 const html = '<h1>hello</h1><p>this is my page </p><ol><li>first item</li><li>second item</li></ol>'
 let converter = new HTML2Jira()
-let res = this.toJira(html)
-
+let res = converter.toJira(html)
 ```
 
 ## publish updated to NPM
