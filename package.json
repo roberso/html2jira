@@ -51,7 +51,7 @@
     "eslint-plugin-jsx-a11y": "^6.0.2",
     "eslint-plugin-react": "^7.4.0",
     "mocha": "^7.1.1",
-    "nyc": "^13.3.0",
+    "nyc": "^15.1.0",
     "rimraf": "^2.6.2"
   }
 }
